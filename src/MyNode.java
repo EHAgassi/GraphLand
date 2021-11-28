@@ -3,15 +3,11 @@ import api.NodeData;
 
 public class MyNode implements NodeData {
     int node_key;
-    int x_pos;
-    int y_pos;
-    int z_pos;
+    Location position;
 
-    public MyNode(int node_key, int x_pos, int y_pos, int z_pos) {
+    public MyNode(int node_key, Location position) {
         this.node_key = node_key;
-        this.x_pos = x_pos;
-        this.y_pos = y_pos;
-        this.z_pos = z_pos;
+        this.position = position;
     }
 
 

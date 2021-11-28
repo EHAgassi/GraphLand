@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph {
 
+    MyNode[] nodes;
     public Graph(){
 
     }
