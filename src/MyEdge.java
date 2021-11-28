@@ -1,19 +1,30 @@
 import api.EdgeData;
 
 public class MyEdge implements EdgeData {
+
+    int src;
+    int dest;
+    long weight;
+
+    public MyEdge(int src, int dest, long weight) {
+        this.src = src;
+        this.dest = dest;
+        this.weight = weight;
+    }
+
     @Override
     public int getSrc() {
-        return 0;
+        return  this.src ;
     }
 
     @Override
     public int getDest() {
-        return 0;
+        return this.dest;
     }
 
     @Override
     public double getWeight() {
-        return 0;
+        return this.weight;
     }
 
     @Override
