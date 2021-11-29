@@ -4,9 +4,10 @@ public class MyEdge implements EdgeData {
 
     int src;
     int dest;
-    long weight;
+    double weight;
 
-    public MyEdge(int src, int dest, long weight) {
+
+    public MyEdge(int src, int dest, double weight) {
         this.src = src;
         this.dest = dest;
         this.weight = weight;
