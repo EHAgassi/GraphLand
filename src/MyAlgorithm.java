@@ -1,19 +1,23 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.NodeData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
 
+    MyGraph graph;
+
     @Override
     public void init(DirectedWeightedGraph g) {
-
+        this.graph = (MyGraph) g;
     }
 
     @Override
     public DirectedWeightedGraph getGraph() {
-        return null;
+        return this.graph;
     }
 
     @Override
@@ -53,6 +57,16 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean load(String file) {
-        return false;
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(MyGraph.class,new MyGraphDeserialize());
+        Gson gson = builder.setPrettyPrinting().create();
+
+        graph = gson.fromJson("./data/G1.json",MyGraph.class);
+        System.out.println(graph);
+        if(graph.nodes.get(0)!=null) {
+            return true;
+        }
+        else return false;
     }
+
 }
