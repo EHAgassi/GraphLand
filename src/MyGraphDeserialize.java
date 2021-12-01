@@ -12,7 +12,7 @@ public class MyGraphDeserialize implements JsonDeserializer<MyGraph> {
             JsonObject jasonObj = (JsonObject) jNodeArr.get(i);
             Location location = new Location(jasonObj.get("pos").getAsString());
             MyNode me = new MyNode(jasonObj.get("id").getAsInt(),location);
-            theGraph.nodes.add(me);
+            theGraph.nodes.put(me.node_key,me);
         }
 
         JsonArray jEdgeArr = jsonObject.getAsJsonArray("Edges");

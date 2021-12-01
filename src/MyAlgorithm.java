@@ -29,7 +29,7 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
     @Override
     public DirectedWeightedGraph copy() {
         MyGraph new_graph = new MyGraph();
-        new_graph.nodes.addAll(this.graph.nodes);
+        new_graph.nodes = this.graph.nodes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
         new_graph.edgesMap = this.graph.edgesMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
         new_graph.MC = this.graph.MC;
        return new_graph;
@@ -82,9 +82,10 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
             System.out.println(graph);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
-        return graph.nodes.get(0) != null;
+        return true;
     }
 
 }
