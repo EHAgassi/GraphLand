@@ -40,4 +40,13 @@ public class Location implements GeoLocation {
     public double distance(GeoLocation g) {
         return (Math.pow(this.x_pos - g.x(), 2) + Math.pow(this.y_pos - g.y(), 2) + Math.pow(this.z_pos - g.z(), 2));
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "x=" + x_pos +
+                ", y=" + y_pos +
+                ", z=" + z_pos +
+                '}';
+    }
 }

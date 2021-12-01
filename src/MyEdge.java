@@ -47,4 +47,13 @@ public class MyEdge implements EdgeData {
     public void setTag(int t) {
 
     }
+
+    @Override
+    public String toString() {
+        return "MyEdge{" +
+                "src=" + src +
+                ", dest=" + dest +
+                ", weight=" + weight +
+                '}';
+    }
 }

@@ -4,7 +4,13 @@ import api.NodeData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
 
@@ -22,11 +28,19 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph copy() {
-        return null;
+        MyGraph new_graph = new MyGraph();
+        new_graph.nodes.addAll(this.graph.nodes);
+        new_graph.edgesMap = this.graph.edgesMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
+        new_graph.MC = this.graph.MC;
+       return new_graph;
     }
 
     @Override
     public boolean isConnected() {
+//        for (NodeData.) {
+//
+//        }
+
         return false;
     }
 
@@ -57,16 +71,20 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean load(String file) {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(MyGraph.class,new MyGraphDeserialize());
-        Gson gson = builder.setPrettyPrinting().create();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(MyGraph.class, new MyGraphDeserialize());
+            Gson gson = builder.setPrettyPrinting().create();
 
-        graph = gson.fromJson("./data/G1.json",MyGraph.class);
-        System.out.println(graph);
-        if(graph.nodes.get(0)!=null) {
-            return true;
+            Reader reader = Files.newBufferedReader(Paths.get(file));
+            graph = gson.fromJson(reader, MyGraph.class);
+
+            System.out.println(graph);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else return false;
+
+        return graph.nodes.get(0) != null;
     }
 
 }

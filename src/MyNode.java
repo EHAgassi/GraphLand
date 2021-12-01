@@ -78,4 +78,14 @@ public class MyNode implements NodeData {
     public void setTag(int t) {
 
     }
+
+    @Override
+    public String toString() {
+        return "MyNode{" +
+                "node_key=" + node_key +
+                ", position=" + position +
+                ", EdgesIn=" + EdgesIn +
+                ", EdgesOut=" + EdgesOut +
+                '}';
+    }
 }
