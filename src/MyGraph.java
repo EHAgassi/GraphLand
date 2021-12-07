@@ -8,13 +8,15 @@ import java.util.Map;
 
 
 public class MyGraph implements DirectedWeightedGraph {
-    Map<Integer,NodeData> nodes;
-//    Map<Integer, EdgeData> edgesMap;
+    Map<Integer, NodeData> nodes;
+    int edgesNum;
+    //    Map<Integer, EdgeData> edgesMap;
     int MC;
 
     public MyGraph() {
         this.nodes = new HashMap<>();
 //        edgesMap = new HashMap<>();
+        edgesNum = 0;
     }
 
 //    public void MapEdgesToNodes() {
@@ -40,7 +42,7 @@ public class MyGraph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
-        nodes.put(n.getKey(),new MyNode(n));
+        nodes.put(n.getKey(), new MyNode(n));
     }
 
     @Override
@@ -49,6 +51,7 @@ public class MyGraph implements DirectedWeightedGraph {
         ((MyNode) this.nodes.get(dest)).connectInEdges(temp_edge);
         ((MyNode) this.nodes.get(src)).connectOutEdges(temp_edge);
 //        this.edgesMap.put(src, temp_edge);
+        this.edgesNum++;
     }
 
     @Override
@@ -59,7 +62,41 @@ public class MyGraph implements DirectedWeightedGraph {
     @Override
     public Iterator<EdgeData> edgeIter() {
 
-        return edgesMap.values().iterator();
+        class IteratorOfIterator<EdgeData> implements Iterator<EdgeData> {
+
+            private Iterator<EdgeData>[] iterators;
+
+            private Iterator<EdgeData> currentIterator;
+
+            private int currentIndex;
+
+            public IteratorOfIterator(Iterator<EdgeData>[] iterators) {
+                this.iterators = iterators;
+                this.currentIndex = 0;
+                this.currentIterator = iterators[currentIndex];
+            }
+
+            public boolean hasNext() {
+                return ((currentIndex < iterators.length - 1) || currentIterator.hasNext());
+            }
+
+            public EdgeData next() {
+                if (!this.currentIterator.hasNext()) {
+                    currentIndex++;
+                    this.currentIterator = iterators[currentIndex];
+                }
+                return currentIterator.next();
+            }
+        }
+
+        Iterator<EdgeData>[] iter =new Iterator[nodes.size()] ;
+        int i=0;
+        for (NodeData nd : nodes.values())
+        {
+            iter[i++] =((MyNode)nd).EdgesOut.values().iterator();
+        }
+
+        return new IteratorOfIterator(iter);
     }
 
     @Override
@@ -71,13 +108,13 @@ public class MyGraph implements DirectedWeightedGraph {
     public NodeData removeNode(int key) {
         NodeData temp = nodes.get(key); //note: to assert key == m.
         // iterate the all edges going out
-        for (EdgeData m :((MyNode)nodes.get(key)).EdgesOut.values()) {
+        for (EdgeData m : ((MyNode) nodes.get(key)).EdgesOut.values()) {
             ((MyNode) nodes.get(m.getDest())).EdgesIn.remove(m.getSrc()); // delete the out edges in each dest node hashmap
 //            this.edgesMap.remove(m.getDest());// delete the income edges from the Graph hashmap
         }
         // iterate the all edges coming in each source node hashmap and delete  :
         ((MyNode) nodes.get(key)).EdgesIn.forEach((k, v) -> ((MyNode) nodes.get(v.getSrc())).EdgesOut.remove(key));
-        this.edgesMap.remove(key);  // delete the outcome edge from the Graph hashmap
+//        this.edgesMap.remove(key);  // delete the outcome edge from the Graph hashmap
 
         nodes.remove(key);
         return temp;
@@ -88,7 +125,8 @@ public class MyGraph implements DirectedWeightedGraph {
         EdgeData temp = ((MyNode) this.nodes.get(src)).EdgesOut.get(dest);
         ((MyNode) this.nodes.get(src)).EdgesOut.remove(dest);
         ((MyNode) this.nodes.get(dest)).EdgesIn.remove(src);
-        edgesMap.remove(src);
+//        edgesMap.remove(src);
+        edgesNum--;
         return temp;
     }
 
@@ -99,7 +137,7 @@ public class MyGraph implements DirectedWeightedGraph {
 
     @Override
     public int edgeSize() {
-        return edgesMap.size();
+        return edgesNum;
     }
 
     @Override
@@ -111,7 +149,6 @@ public class MyGraph implements DirectedWeightedGraph {
     public String toString() {
         return "MyGraph{" +
                 "nodes=" + nodes +
-                ", edgesMap=" + edgesMap +
                 ", MC=" + MC +
                 '}';
     }

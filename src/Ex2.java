@@ -33,16 +33,18 @@ public class Ex2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        MyNode my = new MyNode(134, new Location(3, 4, 5));
-        ans.addNode(my);
-        ans.connect(1, 3, 5.88888);
-        System.out.println(ans.edgeSize());
-        System.out.println(ans.getMC());
-        ans.removeEdge(1, 3);
-        ans.removeNode(3);
-        ans.removeNode(0);
+//        MyNode my = new MyNode(134, new Location(3, 4, 5));
+//        ans.addNode(my);
+//        ans.connect(1, 3, 5.88888);
+//        System.out.println(ans.edgeSize());
+//        System.out.println(ans.getMC());
+//        ans.removeEdge(1, 3);
+//        ans.removeNode(3);
+//        ans.removeNode(0);
         System.out.println(ans);
-
+        while (ans.edgeIter().hasNext()){
+            System.out.println(ans.edgeIter().next());
+        }
 
         return ans;
     }
@@ -67,12 +69,10 @@ public class Ex2 {
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
         MyGraph ma = (MyGraph) alg.getGraph();
-//        MyFrame.printg
         class MyFrames extends JFrame {
             public void printg(MyGraph mg) {
-//                super.paint();
                 this.setSize(500, 500);
-//                JFrame.
+
 
             }
         }

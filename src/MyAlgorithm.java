@@ -3,7 +3,6 @@ import api.DirectedWeightedGraphAlgorithms;
 import api.NodeData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -30,7 +29,7 @@ public class MyAlgorithm implements DirectedWeightedGraphAlgorithms {
     public DirectedWeightedGraph copy() {
         MyGraph new_graph = new MyGraph();
         new_graph.nodes = this.graph.nodes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
-        new_graph.edgesMap = this.graph.edgesMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
+//        new_graph.edgesMap = this.graph.edgesMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
         new_graph.MC = this.graph.MC;
        return new_graph;
     }
