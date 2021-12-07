@@ -3,6 +3,7 @@ import api.DirectedWeightedGraphAlgorithms;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -32,7 +33,18 @@ public class Ex2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ans  ;
+        MyNode my = new MyNode(134, new Location(3, 4, 5));
+        ans.addNode(my);
+        ans.connect(1, 3, 5.88888);
+        System.out.println(ans.edgeSize());
+        System.out.println(ans.getMC());
+        ans.removeEdge(1, 3);
+        ans.removeNode(3);
+        ans.removeNode(0);
+        System.out.println(ans);
+
+
+        return ans;
     }
 
     /**
@@ -42,10 +54,8 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
-        DirectedWeightedGraphAlgorithms ans = null;
-        // ****** Add your code here ******
-        //
-        // ********************************
+        DirectedWeightedGraphAlgorithms ans = new MyAlgorithm();
+        ((MyAlgorithm)ans).graph =  ((MyGraph)getGrapg(json_file));
         return ans;
     }
 
@@ -56,9 +66,18 @@ public class Ex2 {
      */
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
+        MyGraph ma = (MyGraph) alg.getGraph();
+//        MyFrame.printg
+        class MyFrames extends JFrame {
+            public void printg(MyGraph mg) {
+//                super.paint();
+                this.setSize(500, 500);
+//                JFrame.
+
+            }
+        }
+
+
     }
 
     public static void main(String[] args) {
