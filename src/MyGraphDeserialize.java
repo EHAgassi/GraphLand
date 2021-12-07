@@ -19,7 +19,7 @@ public class MyGraphDeserialize implements JsonDeserializer<MyGraph> {
         for (int i = 0; i <jEdgeArr.size() ; i++) {
             JsonObject jasonObj = (JsonObject) jEdgeArr.get(i);
             MyEdge me = new MyEdge(jasonObj.get("src").getAsInt(),jasonObj.get("dest").getAsInt(),jasonObj.get("w").getAsDouble());
-            theGraph.edgesMap.put(me.src, me);
+            theGraph.edgesMap.put(me.src+","+me.dest, me);
         }
         theGraph.MapEdgesToNodes();
 

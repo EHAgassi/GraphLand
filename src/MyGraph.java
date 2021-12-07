@@ -8,8 +8,8 @@ import java.util.Map;
 
 
 public class MyGraph implements DirectedWeightedGraph {
-    Map<Integer,NodeData> nodes;
-    Map<Integer, EdgeData> edgesMap;
+    Map<Integer, NodeData> nodes;
+    Map<String, EdgeData> edgesMap;
     int MC;
 
     public MyGraph() {
@@ -40,7 +40,7 @@ public class MyGraph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
-        nodes.put(n.getKey(),new MyNode(n));
+        nodes.put(n.getKey(), new MyNode(n));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MyGraph implements DirectedWeightedGraph {
         MyEdge temp_edge = new MyEdge(src, dest, w);
         ((MyNode) this.nodes.get(dest)).connectInEdges(temp_edge);
         ((MyNode) this.nodes.get(src)).connectOutEdges(temp_edge);
-        this.edgesMap.put(src, temp_edge);
+        this.edgesMap.put("" + src + "," + dest, temp_edge);
     }
 
     @Override
@@ -68,18 +68,22 @@ public class MyGraph implements DirectedWeightedGraph {
 
     @Override
     public NodeData removeNode(int key) {
-        NodeData temp = nodes.get(key); //note: to assert key == m.getSrc
-        while (edgeIter(key).hasNext()) { // iterate the all edges going out
-            EdgeData m = edgeIter(key).next();
-            ((MyNode) nodes.get(m.getDest())).EdgesIn.remove(m.getSrc()); // delete the out edges in each dest node hashmap
-            this.edgesMap.remove(m.getDest());// delete the income edges from the Graph hashmap
+        NodeData node = nodes.get(key); //note: to assert key == m.getSrc
+        // iterate over all edges coming out and delete:
+        for (EdgeData m : ((MyNode) nodes.get(key)).EdgesOut.values()) {
+            ((MyNode) nodes.get(m.getDest())).EdgesIn.remove(key);
+            this.edgesMap.remove(m.getSrc()+","+m.getDest());
         }
-        // iterate the all edges coming in each source node hashmap and delete  :
-        ((MyNode) nodes.get(key)).EdgesIn.forEach((k, v) -> ((MyNode) nodes.get(v.getDest())).EdgesOut.remove(v.getDest()));
-        this.edgesMap.remove(key);  // delete the outcome edge from the Graph hashmap
+        // iterate over all edges coming in and delete:
+        for (EdgeData m : ((MyNode) nodes.get(key)).EdgesIn.values()) {
+            ((MyNode) nodes.get(m.getSrc())).EdgesOut.remove(key);
+            this.edgesMap.remove(m.getSrc()+","+m.getDest());
+        }
+//        ((MyNode) nodes.get(key)).EdgesIn.forEach((k, v) -> ((MyNode) nodes.get(v.getDest())).EdgesOut.remove(v.getDest()));
+//        this.edgesMap.remove(key);  // delete the outcome edge from the Graph hashmap
 
         nodes.remove(key);
-        return temp;
+        return node;
     }
 
     @Override

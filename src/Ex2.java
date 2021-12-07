@@ -32,6 +32,19 @@ public class Ex2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        MyNode my = new MyNode(134, new Location(3, 4, 5));
+//        ans.addNode(my);
+//        ans.connect(1, 3, 5.88888);
+//        System.out.println(ans.edgeSize());
+//        System.out.println(ans.getMC());
+//        ans.removeEdge(1, 3);
+//        ans.removeNode(3);
+//        ans.removeNode(0);
+        System.out.println(ans);
+        while (ans.edgeIter().hasNext()){
+            System.out.println(ans.edgeIter().next());
+        }
+
         return ans  ;
     }
 
