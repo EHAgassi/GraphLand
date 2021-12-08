@@ -44,7 +44,7 @@ public class MyEdge implements EdgeData {
     }
 
     @Override
-    public void setTag(int t) {
+    public void setTag(int num) {
 
     }
 

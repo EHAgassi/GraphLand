@@ -1,5 +1,6 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,20 +33,7 @@ public class Ex2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        MyNode my = new MyNode(134, new Location(3, 4, 5));
-//        ans.addNode(my);
-//        ans.connect(1, 3, 5.88888);
-//        System.out.println(ans.edgeSize());
-//        System.out.println(ans.getMC());
-//        ans.removeEdge(1, 3);
-//        ans.removeNode(3);
-//        ans.removeNode(0);
-        System.out.println(ans);
-        while (ans.edgeIter().hasNext()){
-            System.out.println(ans.edgeIter().next());
-        }
-
-        return ans  ;
+        return ans;
     }
 
     /**
@@ -75,7 +63,42 @@ public class Ex2 {
     }
 
     public static void main(String[] args) {
-        getGrapg("data\\G2.json");
+        MyGraph mg = (MyGraph) getGrapg("data\\G3.json");
+
+//        MyNode my = new MyNode(134, new Location(3, 4, 5));
+//        mg.addNode(my);
+//        mg.connect(1, 3, 5.88888);
+//        System.out.println(mg.edgeSize());
+//        System.out.println(mg.getMC());
+//        mg.removeEdge(1, 3);
+//        mg.removeNode(3);
+//        mg.removeNode(0);
+//        mg.removeNode(8);
+//        Iterator<EdgeData> iter = mg.edgeIter();
+//        while (iter.hasNext()){
+//            System.out.println(iter.next());
+//        }
+        MyGraph tempGraph = new MyGraph();
+        tempGraph.nodes.put(0,new MyNode(0,new Location(1,2,0)));
+        tempGraph.nodes.put(1,new MyNode(1,new Location(3,4,0)));
+        tempGraph.nodes.put(2,new MyNode(2,new Location(0,5,0)));
+        for (NodeData mn : tempGraph.nodes.values()) {
+            for (NodeData omn : tempGraph.nodes.values()) {
+                if (mn != omn) {
+                    tempGraph.connect(mn.getKey(), omn.getKey(), omn.getKey() + 3);
+                    tempGraph.connect(omn.getKey(), mn.getKey(), omn.getKey() + 2);
+                }
+            }
+        }
+       tempGraph.removeEdge(0,1);
+        tempGraph.removeEdge(1,0);
+       tempGraph.removeEdge(0,2);
+//        tempGraph.removeEdge(2,0);
+//        System.out.println(tempGraph);
+
+        MyAlgorithm ma = new MyAlgorithm();
+        ma.graph = tempGraph;
+        System.out.println(ma.isConnected());
 
     }
 }

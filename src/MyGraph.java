@@ -46,9 +46,9 @@ public class MyGraph implements DirectedWeightedGraph {
     @Override
     public void connect(int src, int dest, double w) {
         MyEdge temp_edge = new MyEdge(src, dest, w);
-        ((MyNode) this.nodes.get(dest)).connectInEdges(temp_edge);
-        ((MyNode) this.nodes.get(src)).connectOutEdges(temp_edge);
-        this.edgesMap.put("" + src + "," + dest, temp_edge);
+        ((MyNode) nodes.get(dest)).connectInEdges(temp_edge);
+        ((MyNode) nodes.get(src)).connectOutEdges(temp_edge);
+        this.edgesMap.put(src + "," + dest, temp_edge);
     }
 
     @Override
@@ -79,8 +79,6 @@ public class MyGraph implements DirectedWeightedGraph {
             ((MyNode) nodes.get(m.getSrc())).EdgesOut.remove(key);
             this.edgesMap.remove(m.getSrc()+","+m.getDest());
         }
-//        ((MyNode) nodes.get(key)).EdgesIn.forEach((k, v) -> ((MyNode) nodes.get(v.getDest())).EdgesOut.remove(v.getDest()));
-//        this.edgesMap.remove(key);  // delete the outcome edge from the Graph hashmap
 
         nodes.remove(key);
         return node;
@@ -91,7 +89,7 @@ public class MyGraph implements DirectedWeightedGraph {
         EdgeData temp = ((MyNode) this.nodes.get(src)).EdgesOut.get(dest);
         ((MyNode) this.nodes.get(src)).EdgesOut.remove(dest);
         ((MyNode) this.nodes.get(dest)).EdgesIn.remove(src);
-        edgesMap.remove(src);
+        edgesMap.remove(src+","+dest);
         return temp;
     }
 
